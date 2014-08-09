@@ -1,0 +1,143 @@
+{% extends "core/base_right.html" %}
+
+{% load comments %}
+
+{% block content_data %}
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="form-group gallery">
+                <p><span class="frame alignleft">
+                <a class="image_effect zoom" id="avatar_href" href="{{ object.user.get_profile.photo.image.url }}" rel="prettyPhoto">
+                    <img id="avatar_img" class="img-circle avatar" src="{{ object.user.get_profile.photo.get_avatar_url }}" width="100%" alt="{{ object.user.username }}">
+                </a>
+                </span></p>
+            </div>
+        </div>
+        <div class="media-body">
+            <a href="{% url 'profile_detail' object.user.username %}">
+                <h4 class="media-heading username">{{ object.user.username }}</h4>
+            </a>
+            {% if is_owner %}
+                <a id="edit_poi" class="configure" href=""><span class="glyphicon glyphicon-cog"></span></a>
+            {% endif %}
+            <span class="glyphicon glyphicon-calendar"></span>
+            <label>{{ object.user.last_login|date:'d.m.Y' }}</label><br />
+            <span class="glyphicon glyphicon-map-marker"></span>
+            <label id="user_poi_count">{{ object.user.get_profile.get_points|length }}</label><br />
+        </div>
+    </div>
+    <div id="poi_edit_group" class="scrollable_detail">
+        <div class="preview">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div style="font-weight: bold;">
+                        {{ object.name }}
+                    </div>
+                </div>
+            </div>
+            {% if object.description %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="comment more">
+                            {{ object.description }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="form-group gallery">
+                <a href="{{ object.photo.image.url }}" rel="prettyPhoto"
+                    title="<a href='{% url 'profile_detail' object.user.username %}'>
+                    <img class='img-circle avatar left' src='{{ object.user.get_profile.photo.get_avatar_url }}'>
+                    <a class='photo_title' href='/{{ object.slug }}/'>
+                        {{ object.name }}
+                    </a>
+                    <br />
+                    <span class='glyphicon glyphicon-user'></span>
+                    <a href='/profile/{{ object.user.username|lower }}/'>
+                        {{ object.user.username }}
+                    </a><br />
+                    <p class='photo_description'>{{ object.description }}</p>">
+                    <div class="imgWrap" title=" ">
+                        <img src="{{ object.photo.get_display_url }}" width="100%" alt="{{ object.name }}">
+                        <p class="imgDescription">{{ object.description }}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="form-group">
+                <div class="view_count">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                    <span>{{ object.photo.view_count|add:"-2" }}</span>
+                </div>
+                <div class="view_count like">
+                    {% if not is_owner %}
+                        <a id="{{ object.id }}" href="#">
+                            <i class="glyphicon glyphicon-thumbs-up"></i>
+                            <span>{{ object.like_count }}</span>
+                        </a>
+                    {% else %}
+                        <i class="glyphicon glyphicon-thumbs-up"></i>
+                        <span>{{ object.like_count }}</span>
+                    {% endif %}
+                </div>
+                <div class="date">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <span>{{ object.photo.date_taken|date:'d.m.Y' }}</span>
+                </div>
+            </div>
+            {% get_comment_count for object as comment_count %}
+            <a id="show_comments" class="view_count" href="#">
+                <i class="glyphicon glyphicon-comment"></i>
+                <span>Show Comments <span class="badge">{{ comment_count }}</span></span>
+            </a>
+        </div>
+        <div class="comments">
+            <a id="hide_comments" class="view_count" href="#">
+                <i class="glyphicon glyphicon-comment"></i>
+                <span>Hide Comments</span>
+            </a>
+        {% if user.is_authenticated %}
+            {% get_comment_form for object as form %}
+            <form id="comment_form" action="{% comment_form_target %}" method="post">
+                {% csrf_token %}
+                {{ form.content_type }}
+                {{ form.object_pk }}
+                {{ form.timestamp }}
+                {{ form.security_hash }}
+                <div class="form-group">
+                        <textarea id="text_area" class="form-control" name="comment" rows="1" id="id_comment" placeholder="Enter your comment"></textarea>
+                    {{ form.errors.comment }}
+                </div>
+                <input id="add_comment" class="btn btn-primary" type="submit" name="submit" value="Post">
+            </form>
+        {% else %}
+            <br />
+            <br />
+            <p>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment.</p>
+        {% endif %}
+            <br />
+            {% get_comment_list for object as comment_list %}
+            {% for comment in comment_list %}
+            <ul class="media-list">
+                <li class="media">
+                    <div class="form-group gallery">
+                        <a class="pull-left" href="{{ object.user.get_profile.photo.image.url }}" rel="prettyPhoto">
+                            <img class="media-object img-circle avatar comment_avatar" src="{{ comment.user.get_profile.photo.get_avatar_url }}" alt="{{ object.user.username }}">
+                        </a>
+                        <div class="media-body">
+                            <a href="{% url 'profile_detail' comment.user_name %}">
+                                <h4 class="media-heading">{{ comment.user_name }}</h4>
+                            </a>
+                            <p>{{ comment.submit_date|date:'d.m.Y' }}</p>
+                            <p class="comment">{{ comment.comment }}</o>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block map_center %}{{ object.location.x }}, {{ object.location.y }}{% endblock %}

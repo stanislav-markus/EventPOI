@@ -1,0 +1,16 @@
+{% extends "home.html" %}
+
+{% block navbar-active-login %}active{% endblock %}
+
+{% block map %}transparent{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-3 col-md-offset-4 rounded non-transparent">
+		<br />
+    	{% block content_login %}
+    	{% endblock %}
+		<br />
+    </div>
+</div>
+{% endblock %}

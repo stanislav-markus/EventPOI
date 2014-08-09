@@ -1,0 +1,31 @@
+{% extends "core/base_center.html" %}
+
+{% block content_data %}
+	<p>{{ form.non_field_errors }}</p>
+    <form id="poi_form" method="post" action="" accept-charset="utf-8" enctype="multipart/form-data">
+	{% csrf_token %}
+	<div class="form-group">
+		<input type="text" class="form-control" name="name" maxlength="254" id="id_name" placeholder="Enter name of POI">
+		{{ form.errors.name }}
+	</div>
+	<div class="form-group">
+		<textarea id="text_area" class="form-control" name="description" rows="2" id="id_description" placeholder="Enter description of POI"></textarea>
+		{{ form.errors.description }}
+	</div>
+	<div class="form-group">
+        <div class="fileUpload">
+        	<div id="upload_zone" class="add_photo">
+        		<span class="glyphicon glyphicon-camera"></span>
+        	</div>
+        	<img style="display:none" id="photo_preview" class="add_photo" src="">
+            <input id="photo_upload" type="file" class="upload" name="image">
+        </div>
+		{{ photo_form.errors.image }}
+	</div>
+	<input type="submit" class="btn btn-primary" value="SUBMIT" />
+	<input type="hidden" name="next" value="{{ next }}" />
+	</form>
+
+{% endblock %}
+
+{% block map_center %}{{ location.x }}, {{ location.y }}{% endblock %}

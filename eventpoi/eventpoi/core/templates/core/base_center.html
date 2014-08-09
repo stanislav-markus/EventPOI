@@ -1,0 +1,14 @@
+{% extends "home.html" %}
+
+{% block map %}transparent{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-3 col-md-offset-4 rounded non-transparent">
+		<br />
+    	{% block content_data %}
+    	{% endblock %}
+		<br />
+    </div>
+</div>
+{% endblock %}

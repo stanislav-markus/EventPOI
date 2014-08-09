@@ -1,0 +1,45 @@
+{% extends "core/base_right_profile.html" %}
+
+{% block content_data %}
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="form-group gallery">
+                <p><span class="frame alignleft">
+                <a class="image_effect zoom" id="avatar_href" href="{{ object.photo.image.url }}" rel="prettyPhoto">
+                    <img id="avatar_img" class="img-circle avatar" src="{{ object.photo.get_avatar_url }}" width="100%" alt="{{ object.user.username }}">
+                </a>
+                </span></p>
+            </div>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading username">{{ object.user.username }}</h4>
+            {% if is_owner %}
+                <form id="avatar_form" method="post" action="update/" accept-charset="utf-8" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="avatarUpload">
+                        <a href="#" class="add_avatar">
+                            <span class="glyphicon glyphicon-camera"></span>
+                        </a>
+                        <input id="avatar_upload" type="file" class="upload" name="image">
+                    </div>
+                </form>
+            {% else %}
+                <span class="glyphicon glyphicon-calendar"></span>
+                <label>{{ object.user.last_login|date:'d.m.Y' }}</label><br />
+            {% endif %}
+            <span class="glyphicon glyphicon-map-marker"></span>
+            <label id="user_poi_count">{{ object.get_points|length }}</label><br />
+        </div>
+    </div>
+
+    <div id="actions">
+        <a class="prev_page disabled_to_page">« Back</a>
+        <a class="next_page disabled_to_page">More »</a>
+    </div>
+
+    <div id="user_pois" owner="{{ object.user }}" user="{{ user }}">
+    </div>
+
+
+
+{% endblock %}

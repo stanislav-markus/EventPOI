@@ -1,0 +1,29 @@
+{% extends "registration/base.html" %}
+
+{% block content_login %}
+    <p>{{ form.non_field_errors }}</p>
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-addon"><span class='glyphicon glyphicon-user'></span></div>
+            <input type="text" class="form-control" name="username" maxlength="254" id="id_username" placeholder="Enter username">
+        </div>
+            {{ form.errors.username }}
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-addon"><span class='glyphicon glyphicon-lock'></span></div>
+            <input type="password" class="form-control" name="password" id="id_password" placeholder="Enter password">
+        </div>
+            {{ form.errors.password }}
+    </div>
+    <input type="submit" class="btn btn-primary" value="LOGIN" />
+    <input type="hidden" name="next" value="{{ next }}" />
+    <div style="margin-top: 5px">
+        <a href="{% url 'registration_register' %}">Register</a>
+        or
+        <a href="{% url 'password_reset' %}">Forgot your password?</a>
+    </div>
+    </form>
+{% endblock %}

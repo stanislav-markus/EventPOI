@@ -1,0 +1,41 @@
+.scrollable {
+
+    position:relative;
+    overflow:hidden;
+    width: 90%;
+    height:120px;
+
+    #border:1px solid #ccc;
+    #background:url(/static/images/h300.png) repeat-x;
+}
+
+.scrollable .items {
+    width:20000em;
+    position:absolute;
+    clear:both;
+}
+
+.items div {
+    float:left;
+    #width:680px;
+}
+
+.scrollable img {
+    float:left;
+    margin:20px 5px 20px 21px;
+    background-color:#fff;
+    padding:2px;
+    border:1px solid #ccc;
+    width:100px;
+    height:75px;
+
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+}
+
+.scrollable .active {
+    border:2px solid #000;
+    position:relative;
+    cursor:default;
+}
+

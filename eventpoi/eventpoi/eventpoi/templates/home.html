@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="container">
+            <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        <div id="map-container" class="{% block map %}{% endblock %}">
+
+            <div id="map"></div>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+    <div class="footer" id="footer">
+        <div>
+        <a class="prev browse left"></a>
+        <div class="scrollable" id="scrollable">
+          <div class="items gallery">
+          </div>
+        </div>
+        <a class="next browse right"></a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.mCustomScrollbar.css">
+    <link href="{{ STATIC_URL }}css/hover.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-horizontal.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-buttons.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/slider.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+    {% block extrahead %}{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ STATIC_URL }}js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/markerclusterer_compiled.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.elastic.source.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.iframe-transport.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/base.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+    {% block extrascripts %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,49 @@
+.alignright, img.alignright, a img.alignright {
+	float:right;
+	margin:10px 0px 10px 16px;
+}
+.alignleft, img.alignleft, a img.alignleft {
+	#float:left;
+	#margin:10px 16px 10px 0;
+}
+.aligncenter, img.aligncenter, a img.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto
+}
+.frame {
+	#box-shadow: 0 1px 3px rgba(202, 202, 202, 0.9);
+	#display:inline-block;
+}
+.frame img {
+	background:#ffffff none repeat scroll 0 0;
+	border:1px solid #fff;
+	#padding:8px;
+	margin:0;
+}
+
+.imagemask {
+	position:absolute;
+	opacity:0;
+	overflow:hidden;
+}
+.imagemask img {
+	display: block !important;
+	padding: 0 0 0 0 !important;
+}
+a.image_effect, a.image_effect:hover {
+	text-decoration:none;
+	cursor:pointer;
+}
+/* zoom icon */
+.imagemask.zoom {
+	background:url(/static/images/zoom.png) center 30px no-repeat;
+}
+/* play icon */
+		.imagemask.play {
+	background:url(/static/images/play.png) center 30px no-repeat;
+}
+/* play icon */
+		.imagemask.link {
+	background:url(/static/images/link.png) center 30px no-repeat;
+}

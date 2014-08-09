@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block navbar-active-gallery %}active{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12 rounded non-transparent gallery_place">
+
+
+        {% if object_list %}
+
+            {% if is_paginated %}
+            <div id="page_controls">
+                <ul class="pager">
+                    <ul class="pagination">
+                        <li class="{% if cond == 'date' %}active{% endif %}">
+                            <a href="{% url 'gallery' 'date' 1 %}">
+                            <span class="glyphicon glyphicon-calendar"></span> By Date</a>
+                        </li>
+                        <li class="{% if cond == 'photo__view_count' %}active{% endif %}">
+                            <a href="{% url 'gallery' 'photo__view_count' 1 %}">
+                            <span class="glyphicon glyphicon-eye-open"></span> By View</a>
+                        </li>
+                        <li class="{% if cond == 'like_count' %}active{% endif %}"><a href="{% url 'gallery' 'like_count' 1 %}">
+                            <span class="glyphicon glyphicon-thumbs-up"></span> By Like</a>
+                        </li>
+                    </ul>
+                    <p class="p_bold_center">{{ paginator.count }} photos total</p>
+                    {% if page_obj.has_previous %}
+                        <li><a href="{% url 'gallery' cond page_obj.previous_page_number %}">&larr; Prev</a></li>
+                    {% endif %}
+                    page {{ page_obj.number }} of {{ paginator.num_pages }}
+                    {% if page_obj.has_next %}
+                        <li><a href="{% url 'gallery' cond page_obj.next_page_number %}">Next &rarr;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
+        {% else %}
+            <p>No photos were found.</p>
+        {% endif %}
+
+
+        <br />
+            <div class="photo_gallery">
+
+            </div>
+        <br />
+    </div>
+</div>
+
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style_common.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style1.css" />
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ STATIC_URL }}js/freewall.js"></script>
+    <script>
+        var photo = '';
+        var gallery_plate = '';
+        {% for poi in object_list %}
+            gallery_plate += '\
+                <a href="{% url "poi_detail" poi.slug %}">\
+                    <div class="view view-first">\
+                        <img src="{{ poi.photo.get_preview_url }}" />\
+                        <div class="mask">\
+                            <h2>{{ poi.name }}</h2>\
+                            <p>{{ poi.description }}</p>\
+                            <a href="{% url "profile_detail" poi.user %}" class="info">{{ poi.user }}</a>\
+                        </div>\
+                    </div>\
+                </a>\
+                '
+        {% endfor %}
+        $('.photo_gallery').html(gallery_plate);
+
+    </script>
+{% endblock %}
