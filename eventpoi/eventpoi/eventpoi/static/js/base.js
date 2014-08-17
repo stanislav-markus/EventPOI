@@ -2,6 +2,7 @@ var BaseMap = {};
 BaseMap.limit = 20;
 BaseMap.points = [];
 BaseMap.userPoints = {};
+BaseMap.latlng_markers = {};
 BaseMap.map = null;
 BaseMap.markers = [];
 BaseMap.infoWindow = null;
@@ -211,7 +212,7 @@ function fixtures() {
 
     $(".scrollable_detail").mCustomScrollbar();
 
-    $('#text_area').elastic();
+    //$('#text_area').elastic();
 
     var username = $('#nav_username').text();
     if(username.length > 10) {
@@ -468,6 +469,13 @@ $('#edit_poi').click(function() {
 });
 
 
+$('#hide_poi').click(function() {
+    $('#poi_detail').slideToggle('slow');
+    $('#hide_poi span').toggleClass('glyphicon-chevron-up').toggleClass("glyphicon-chevron-down");
+    return false;
+});
+
+
 BaseMap.clearOverlays = function() {
     for (var i = 0; i < BaseMap.markers.length; i++ ) {
         BaseMap.markers[i].setMap(null);
@@ -549,7 +557,8 @@ BaseMap.showSlider = function(points) {
     for (var i=0; i<points.length; i++) {
         var point = points[i];
         BaseMap.pointSlider.append('<div><p><span class="frame alignleft">' +
-        '<a id="slider_tooltip" class="image_effect zoom" href="'
+        '<a id="slider_tooltip" class="image_effect zoom" ' + 
+        'lat="' + point.latitude + '" lon="' + point.longitude + '" href="'
         + point.photo.display_url +
         '" rel="prettyPhoto[gallery]" title="' +
         '&lt;a href=&#x27;/profile/' + point.user.username.toLowerCase() + '/&#x27; &gt;' +
@@ -575,6 +584,16 @@ BaseMap.showSlider = function(points) {
     repairTitles();
     refreshPrettyPhoto();
     $(".scrollable").scrollable();
+
+    $("a[id^='slider_tooltip']").on('mouseover', function() {
+        marker = BaseMap.latlng_markers[$(this).attr('lat') + ',' + $(this).attr('lon')];
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+
+    });
+    $("a[id^='slider_tooltip']").on('mouseout', function() {
+        marker = BaseMap.latlng_markers[$(this).attr('lat') + ',' + $(this).attr('lon')];
+        marker.setAnimation(null);
+    });
 }
 
 
@@ -594,6 +613,7 @@ BaseMap.showMarkers = function(points) {
 
     BaseMap.markers = [];
     BaseMap.userPoints = [];
+    BaseMap.latlng_markers = [];
     for (var i=0; i<points.length; i++) {
         var point = points[i];
 
@@ -623,8 +643,12 @@ BaseMap.showMarkers = function(points) {
             position: latLng,
             icon: markerImage
         });
+
+        BaseMap.latlng_markers[point.latitude + ',' + point.longitude] = marker;
+
         var fn = BaseMap.markerClickFunction(point, latLng);
         google.maps.event.addListener(marker, 'click', fn);
+        google.maps.event.addListener(marker, 'mouseover', fn);
         google.maps.event.addDomListener(title, 'click', fn);
         BaseMap.markers.push(marker);
 
@@ -632,6 +656,12 @@ BaseMap.showMarkers = function(points) {
     }
     var markerCluster = new MarkerClusterer(BaseMap.map, BaseMap.markers);
 }
+
+
+function toggleBounce(marker) {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+}
+
 
 BaseMap.markerClickFunction = function(point, latlng) {
   return function(e) {

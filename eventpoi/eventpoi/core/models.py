@@ -78,6 +78,9 @@ def get_default_avatar(gender):
     avatar_filename = random.choice(os.listdir(avatar_dir))
     avatar_src_file = os.path.join(avatar_dir, avatar_filename)
     avatar_dst_file = os.path.join('public/media', avatar_filename)
+    dirname = os.path.dirname(avatar_dst_file)
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
     copyfile(avatar_src_file, avatar_dst_file)
     photo = Photo(image=File(open(avatar_dst_file)))
     unique_slugify(photo, avatar_filename)
