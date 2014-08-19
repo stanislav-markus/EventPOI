@@ -69,7 +69,7 @@
                         <img src="{{ poi.photo.get_preview_url }}" />\
                         <div class="mask">\
                             <h2>{{ poi.name }}</h2>\
-                            <p>{{ poi.description }}</p>\
+                            <p>{{ poi.description|escapejs }}</p>\
                             <a href="{% url "profile_detail" poi.user %}" class="info">{{ poi.user }}</a>\
                         </div>\
                     </div>\

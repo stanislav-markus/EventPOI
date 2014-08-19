@@ -1,6 +1,7 @@
 import json
 import os
 import urllib
+import traceback
 
 from django.core.files import File
 from django.contrib.auth.models import User
@@ -23,10 +24,17 @@ class URLopener(urllib.FancyURLopener):
 
 
 def get_description(lat, lon, title):
-    address = get_address(lat, lon)
+    address = ''
+    try:
+        address = u'Address: {}'.format(get_address(lat, lon))
+    except:
+        pass
     found = wikipedia.search(title)
     if found:
-        found = "{} Address: {}".format(wikipedia.summary(found[0])[:400], address)
+        try:
+            found = u"{} \n {}".format(wikipedia.summary(found[0])[:400], address)
+        except:
+            pass
     return found or address
 
 
@@ -65,6 +73,7 @@ def upload_data():
 
             print i, photo_title, 'Saved.'
         except Exception:
+            print traceback.format_exc()
             skipped += 1
 
     print skipped, 'POIs were skipped.'
