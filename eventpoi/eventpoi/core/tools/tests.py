@@ -11,13 +11,23 @@ from core.utils import unique_slugify
 from photologue.models import Photo
 from core.models import POI
 
+from reverse_geocode import get_address
+import wikipedia
 
-TEST_FILENAME = 'core/test_data.json'
+TEST_FILENAME = 'core/tools/test_data.json'
 
 
 class URLopener(urllib.FancyURLopener):
     def http_error_default(self, url, fp, errcode, errmsg, headers):
         raise Exception
+
+
+def get_description(lat, lon, title):
+    address = get_address(lat, lon)
+    found = wikipedia.search(title)
+    if found:
+        found = "{} Address: {}".format(wikipedia.summary(found[0])[:400], address)
+    return found or address
 
 
 def upload_data():
@@ -29,7 +39,7 @@ def upload_data():
 
     skipped = 0
 
-    for i, point in enumerate(data):
+    for i, point in enumerate(data[:100]):
         try:
             photo_file_url = point['photo_file_url']
             photo_title = point['photo_title'][:30]
@@ -47,6 +57,8 @@ def upload_data():
             poi = POI()
             poi.location = photo_location
             poi.name = photo_title
+            poi.description = get_description(
+                point['latitude'], point['longitude'], photo_title)
             poi.user = user
             poi.photo = photo
             poi.save()

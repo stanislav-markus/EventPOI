@@ -284,16 +284,10 @@ ul.errorlist {
 a.morelink {
     text-decoration:none;
     outline: none;
-    color: blue;
 }
 
 .morecontent span {
     display: none;
-}
-
-.btn-primary {
-	.btn-primary;
-	#margin: 0 10px 5px;
 }
 
 .fileUpload {

@@ -1,5 +1,5 @@
 from django.core.management.base import NoArgsCommand
-from core.tests import upload_data
+from core.tools.tests import upload_data
 
 
 class Command(NoArgsCommand):
