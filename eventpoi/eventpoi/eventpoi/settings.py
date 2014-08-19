@@ -31,7 +31,7 @@ LOGGING_OUTPUT_ENABLED = DEBUG
 ALLOWED_HOSTS = []
 
 ADMINS = (
-    ('Eventpoi', 'support@eventpoi.com'),
+    ('LikePOI', 'support@likepoi.com'),
 )
 
 MANAGERS = ADMINS
@@ -70,7 +70,6 @@ ROOT_URLCONF = 'eventpoi.urls'
 
 WSGI_APPLICATION = 'eventpoi.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -85,7 +84,7 @@ DATABASES = {
         'PASSWORD': '33b5bdfc-a115-4d3f-8416-f4fbb7af9c02',
         # Empty for localhost through domain sockets or '127.0.0.1' for
         # localhost through TCP.
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         # Set to empty string for default.
         'PORT': '',
     }
@@ -203,16 +202,17 @@ LOGGING = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 ACCOUNT_ACTIVATION_DAYS = 2 
 
-AUTH_USER_EMAIL_UNIQUE = True
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
+EMAIL_PORT = 25
 EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'info@google.ru'
+DEFAULT_FROM_EMAIL = 'likepoi.com'
+EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
+MAILGUN_ACCESS_KEY = 'key-5rnvtc938wlkrx5u0h-x79t4mlcsk3i6'
+MAILGUN_SERVER_NAME = 'sandbox8921.mailgun.org'
+EMAIL_HOST = 'http://www.likepoi.com'
 
 AUTH_PROFILE_MODULE = "core.UserProfile"
+
+# override this
+POSTGIS_VERSION = ( 1, 5, 3 )

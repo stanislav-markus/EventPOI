@@ -1,1 +1,1 @@
-{{site }} activation email
+{{ site }} activation email

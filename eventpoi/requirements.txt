@@ -8,3 +8,4 @@ django-tastypie>=0.10.0
 django-redis-cache>=0.13
 django-registration>=1.0
 django-crispy-forms>=1.4.0
+django_mailgun>=0.2.2

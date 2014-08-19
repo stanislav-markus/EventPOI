@@ -121,8 +121,8 @@
             <ul class="media-list with_border">
                 <li class="media">
                     <div class="form-group gallery">
-                        <a class="pull-left" href="{{ object.user.get_profile.photo.image.url }}" rel="prettyPhoto">
-                            <img class="media-object img-circle avatar comment_avatar" src="{{ comment.user.get_profile.photo.get_avatar_url }}" alt="{{ object.user.username }}">
+                        <a class="pull-left" href="{{ comment.user.get_profile.photo.image.url }}" rel="prettyPhoto">
+                            <img class="media-object img-circle avatar comment_avatar" src="{{ comment.user.get_profile.photo.get_avatar_url }}" alt="{{ comment.user.username }}">
                         </a>
                         <div class="media-body">
                             <a href="{% url 'profile_detail' comment.user_name|lower %}">

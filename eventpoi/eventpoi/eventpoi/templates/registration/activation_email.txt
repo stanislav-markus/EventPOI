@@ -1,5 +1,5 @@
-Your activation key is {{activation_key}}
+Your activation key is {{ activation_key }}
 
 You must activate your account in {{ expiration_days }} days
 
-http://eventpoi.com/accounts/activate/{{ activation_key }}/
+http://{{ site }}/accounts/activate/{{ activation_key }}/

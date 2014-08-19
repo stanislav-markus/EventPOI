@@ -3,7 +3,7 @@ from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
-
+from django.contrib.sites.models import Site
 class Migration(DataMigration):
 
     def forwards(self, orm):
@@ -16,6 +16,11 @@ class Migration(DataMigration):
         for size in orm['photologue.PhotoSize'].objects.filter(name__in=['thumbnail', 'preview']):
             size.increment_count = False
             size.save()
+
+        site = orm['sites.site'].objects.get(id=1)
+        site.name = u'likepoi.com'
+        site.domain = u'likepoi.com'
+        site.save()
 
     def backwards(self, orm):
         "Write your backwards methods here."
