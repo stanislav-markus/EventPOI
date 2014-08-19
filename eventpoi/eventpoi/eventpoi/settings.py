@@ -215,4 +215,4 @@ EMAIL_HOST = 'http://www.likepoi.com'
 AUTH_PROFILE_MODULE = "core.UserProfile"
 
 # override this
-#POSTGIS_VERSION = ( 1, 5, 3 )
+POSTGIS_VERSION = ( 1, 5, 3 )

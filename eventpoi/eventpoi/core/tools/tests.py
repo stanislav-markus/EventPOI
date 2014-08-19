@@ -39,7 +39,7 @@ def upload_data():
 
     skipped = 0
 
-    for i, point in enumerate(data[:100]):
+    for i, point in enumerate(data):
         try:
             photo_file_url = point['photo_file_url']
             photo_title = point['photo_title'][:30]
