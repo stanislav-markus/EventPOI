@@ -207,7 +207,7 @@ function userPoiTemplate(from, to) {
 function fixtures() {
 
     $.ajaxSetup({
-        cache: true
+        cache: false
     });
 
     $(".scrollable_detail").mCustomScrollbar();
