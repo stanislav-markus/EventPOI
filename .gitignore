@@ -1,3 +1,3 @@
 *.pyc
-eventpoi/env/*
-eventpoi/eventpoi/public/*
+env/
+eventpoi/public/

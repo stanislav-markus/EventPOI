@@ -18,8 +18,8 @@ class Migration(DataMigration):
             size.save()
 
         site = orm['sites.site'].objects.get(id=1)
-        site.name = u'likepoi.com'
-        site.domain = u'likepoi.com'
+        site.name = u'likepoi-likepoi.rhcloud.com/'
+        site.domain = u'likepoi-likepoi.rhcloud.com/'
         site.save()
 
     def backwards(self, orm):

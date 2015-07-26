@@ -3,6 +3,7 @@ import os
 import urllib
 import traceback
 
+from django.conf import settings
 from django.core.files import File
 from django.contrib.auth.models import User
 from django.contrib.gis.geos import Point
@@ -17,6 +18,7 @@ import wikipedia
 
 TEST_FILENAME = 'core/tools/test_data.json'
 
+MEDIA_DIR = '../static/media' if settings.OPENSHIFT else 'public/media'
 
 class URLopener(urllib.FancyURLopener):
     def http_error_default(self, url, fp, errcode, errmsg, headers):
@@ -55,7 +57,7 @@ def upload_data():
 
             photo_filename = '{}.jpg'.format(slugify(photo_title))
             photo_file = URLopener().retrieve(photo_file_url,
-                os.path.join('public/media', photo_filename))
+                os.path.join(MEDIA_DIR, photo_filename))
 
             photo = Photo(image=File(open(photo_file[0])))
             unique_slugify(photo, photo_title)

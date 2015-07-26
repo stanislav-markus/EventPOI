@@ -648,7 +648,7 @@ BaseMap.showMarkers = function(points) {
 
         var fn = BaseMap.markerClickFunction(point, latLng);
         google.maps.event.addListener(marker, 'click', fn);
-        google.maps.event.addListener(marker, 'mouseover', fn);
+        //google.maps.event.addListener(marker, 'mouseover', fn);
         google.maps.event.addDomListener(title, 'click', fn);
         BaseMap.markers.push(marker);
 

@@ -70,28 +70,16 @@ ROOT_URLCONF = 'eventpoi.urls'
 
 WSGI_APPLICATION = 'eventpoi.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        # Or path to database file if using sqlite3.
         'NAME': 'eventpoi_db',
-        # The following settings are not used with sqlite3:
         'USER': 'eventpoi_user',
         'PASSWORD': '33b5bdfc-a115-4d3f-8416-f4fbb7af9c02',
-        # Empty for localhost through domain sockets or '127.0.0.1' for
-        # localhost through TCP.
-        'HOST': '127.0.0.1',
-        # Set to empty string for default.
-        'PORT': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -114,16 +102,12 @@ CACHES = {
     },
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public', 'media')
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 STATIC_URL = '/static/'
 
-# Additional locations of static files
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'eventpoi/static'),
 )
@@ -215,4 +199,35 @@ EMAIL_HOST = 'http://www.likepoi.com'
 AUTH_PROFILE_MODULE = "core.UserProfile"
 
 # override this
-POSTGIS_VERSION = ( 1, 5, 3 )
+POSTGIS_VERSION = ( 2, 1, 5 )
+
+HEROKU = False
+if HEROKU:
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    ALLOWED_HOSTS = ['*']
+    import os
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
+    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+
+OPENSHIFT = False
+if OPENSHIFT:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': os.environ['OPENSHIFT_APP_NAME'],
+            'USER': os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME'],
+            'PASSWORD':  os.environ['OPENSHIFT_POSTGRESQL_DB_PASSWORD'],
+            'HOST': os.environ['OPENSHIFT_POSTGRESQL_DB_HOST'],
+            'PORT': os.environ['OPENSHIFT_POSTGRESQL_DB_PORT'],
+        }
+    }
+
+    STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
+    MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_DATA_DIR'), 'media')

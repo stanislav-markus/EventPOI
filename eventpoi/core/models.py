@@ -15,6 +15,8 @@ GENDER_CHOICES = (
     ('F', 'Female'),
 )
 
+MEDIA_DIR = settings.MEDIA_ROOT if settings.OPENSHIFT else 'public/media'
+
 
 class POI(models.Model):
     location = models.PointField(srid=4326)
@@ -77,7 +79,7 @@ def get_default_avatar(gender):
         'images', '60-male-female-avatars', dict(GENDER_CHOICES)[gender])
     avatar_filename = random.choice(os.listdir(avatar_dir))
     avatar_src_file = os.path.join(avatar_dir, avatar_filename)
-    avatar_dst_file = os.path.join('public/media', avatar_filename)
+    avatar_dst_file = os.path.join(MEDIA_DIR, avatar_filename)
     dirname = os.path.dirname(avatar_dst_file)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
