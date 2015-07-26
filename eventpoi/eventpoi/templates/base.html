@@ -9,7 +9,7 @@
         <link href="{{ STATIC_URL }}css/screen.css" rel="stylesheet" media="screen">
         {% block head %}{% endblock %}
     </head>
-    <body onload="BaseMap.init({% block map_center %}{% endblock %});">
+    <body onload="BaseMap.init({% block map_center %}{% endblock %});" style="overflow: auto">
         <nav class="navbar navbar-default" role="navigation">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">

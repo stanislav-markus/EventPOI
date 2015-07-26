@@ -231,3 +231,4 @@ if OPENSHIFT:
 
     STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
     MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_DATA_DIR'), 'media')
+    TASTYPIE_JSON_CACHE = os.path.join(os.environ.get('OPENSHIFT_DATA_DIR'), 'cache', 'cache.json')
