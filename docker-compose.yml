@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    image: stasmarkus/eventpoi:0.1
+    depends_on:
+      - db
+    ports:
+      - 80:8000
+    volumes:
+      - static:/opt/app/eventpoi/static
+
+  db:
+    image: postgis/postgis:9.2-2.1-alpine
+    environment:
+      POSTGRES_PASSWORD: "33b5bdfc-a115-4d3f-8416-f4fbb7af9c02"
+      POSTGRES_USER: eventpoi_user
+      POSTGRES_DB: eventpoi_db
+    ports:
+      - 5432:5432
+    volumes:
+      - postgis_data:/var/lib/postgresql
