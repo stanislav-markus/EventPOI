@@ -76,7 +76,7 @@ DATABASES = {
         'NAME': 'eventpoi_db',
         'USER': 'eventpoi_user',
         'PASSWORD': '33b5bdfc-a115-4d3f-8416-f4fbb7af9c02',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
